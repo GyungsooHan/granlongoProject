@@ -1,0 +1,29 @@
+
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/data/mongo:/data/db  # Relative path to persistent data directory
+    networks:
+      - mynetwork
+
+  springboot:
+    build: .
+    container_name: springboot
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+volumes:
+  mongo-data:
+
+networks:
+  mynetwork:
